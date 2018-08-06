@@ -37,6 +37,7 @@ class NodeRendererDefault extends Component {
     const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null;
 
     let handle;
+    let connectRow;
     if (canDrag) {
       if (typeof node.children === 'function' && node.expanded) {
         // Show a loading symbol on the handle when the children are expanded
@@ -57,9 +58,12 @@ class NodeRendererDefault extends Component {
             </div>
           </div>
         );
+        connectRow = v => v;
       } else {
         // Show the handle used to initiate a drag-and-drop
-        handle = connectDragSource(<div className="rst__moveHandle" />, {
+        handle = <div className="rst__moveHandle" />;
+        // Create global wrapper for row to make it draggable
+        connectRow = (row) => connectDragSource(row, {
           dropEffect: 'copy',
         });
       }
@@ -111,7 +115,7 @@ class NodeRendererDefault extends Component {
 
         <div className={classnames('rst__rowWrapper', rowDirectionClass)}>
           {/* Set the row preview to be used during drag and drop */}
-          {connectDragPreview(
+          {connectRow(
             <div
               className={classnames(
                 'rst__row',
