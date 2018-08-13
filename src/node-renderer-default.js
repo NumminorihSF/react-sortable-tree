@@ -37,7 +37,7 @@ class NodeRendererDefault extends Component {
     const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null;
 
     let handle;
-    let connectRow;
+    let connectRow = v => v;
     if (canDrag) {
       if (typeof node.children === 'function' && node.expanded) {
         // Show a loading symbol on the handle when the children are expanded
@@ -58,7 +58,6 @@ class NodeRendererDefault extends Component {
             </div>
           </div>
         );
-        connectRow = v => v;
       } else {
         // Show the handle used to initiate a drag-and-drop
         handle = <div className="rst__moveHandle" />;
